@@ -76,7 +76,8 @@ L’application sera accessible sur :
 
 ## 📸 Aperçu
 
-*capture d’écran de l’application ici*
+*<img width="853" height="821" alt="image" src="https://github.com/user-attachments/assets/d3c90fb1-db3a-466f-aecd-d419e1465caf" />
+*
 
 ---
 
