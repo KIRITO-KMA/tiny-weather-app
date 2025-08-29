@@ -1,0 +1,106 @@
+<section class="card">
+  <h2>🌤️ Météo</h2>
+
+  <!-- Recherche -->
+  <div class="row">
+    <input
+      type="text"
+      [(ngModel)]="city"
+      (keydown)="onEnter($event)"
+      placeholder="Ville (ex: Paris)"
+      aria-label="Ville"
+    />
+    <button (click)="search()" [disabled]="loading()">Rechercher</button>
+  </div>
+
+  <p class="muted" *ngIf="!data() && !loading() && !error()">Tape une ville puis clique Rechercher.</p>
+  <p *ngIf="loading()">Chargement…</p>
+  <p class="error" *ngIf="error()">{{ error() }}</p>
+
+  <ng-container *ngIf="data() as w">
+    <!-- En-tête -->
+    <header class="headline">
+      <div class="temp">{{ w.temp }}°</div>
+      <div class="city">{{ w.city }}</div>
+      <div class="summary">
+        {{ w.desc }} — {{ w.max }}° / {{ w.min }}° • Ressenti {{ w.feels }}°
+      </div>
+    </header>
+
+    <!-- Bandeau horaire : toutes les heures restantes d'aujourd'hui -->
+    <section class="slab">
+      <h3>Prochaines heures (aujourd'hui)</h3>
+      <div class="hours">
+        <div class="hour" *ngFor="let h of w.hours">
+          <div class="t">{{ h.time }}</div>
+          <div class="i">{{ h.emoji }}</div>
+          <div class="v">{{ h.temp }}°</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Détails du jour -->
+    <section class="slab">
+      <h3>Détails du jour</h3>
+      <div class="grid6">
+        <div class="cell">
+          <div class="label">Indice UV</div>
+          <div class="value">{{ w.uvText }}</div>
+        </div>
+        <div class="cell">
+          <div class="label">Vent</div>
+          <div class="value">{{ w.wind }} km/h</div>
+        </div>
+        <div class="cell">
+          <div class="label">Humidité</div>
+          <div class="value">{{ w.humidity }}%</div>
+        </div>
+        <div class="cell">
+          <div class="label">Pression</div>
+          <div class="value">{{ w.pressure }} hPa</div>
+        </div>
+        <div class="cell">
+          <div class="label">Pluie (proba)</div>
+          <div class="value">{{ w.precipProb }}%</div>
+        </div>
+        <div class="cell">
+          <div class="label">Visibilité</div>
+          <div class="value">{{ w.visibilityKm }} km</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lever / coucher du soleil (dégradé dynamique + curseur) -->
+    <section class="slab">
+      <h3>Lever et coucher du soleil</h3>
+      <div
+        class="sun-card"
+        [ngStyle]="{'background': 'linear-gradient(90deg, #f6d365 0%, #fda085 30%, ' + w.sunColor + ' 100%)'}"
+      >
+        <div class="sun-row">
+          <div class="sun sun-rise">☀️</div>
+          <div class="sunline">
+            <div class="sun-cursor" [style.left.%]="w.sunProgress" title="{{ w.sunProgress | number:'1.0-0' }}%"></div>
+          </div>
+          <div class="sun sun-set">🌙</div>
+        </div>
+        <div class="sun-times">
+          <div>Lever : <b>{{ w.sunrise }}</b></div>
+          <div>Coucher : <b>{{ w.sunset }}</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 jours -->
+    <section class="slab">
+      <h3>Prochains jours (7)</h3>
+      <div class="days">
+        <div class="day" *ngFor="let d of w.days">
+          <div class="label">{{ d.label }}</div>
+          <div class="icon">{{ d.emoji }}</div>
+          <div class="temps">{{ d.max }}° / {{ d.min }}°</div>
+        </div>
+      </div>
+    </section>
+  </ng-container>
+</section>

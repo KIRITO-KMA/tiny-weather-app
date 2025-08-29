@@ -1,0 +1,160 @@
+.card {
+  max-width: 920px;
+  margin: 2rem auto;
+  background: #ffffffcc;
+  backdrop-filter: blur(4px);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.08);
+  padding: 1.25rem 1.25rem 1rem;
+}
+
+h2 { margin: 0 0 .75rem; }
+
+.row {
+  display: flex; gap: .5rem; margin-bottom: 1rem;
+  input {
+    flex: 1; padding: .6rem .8rem; border: 1px solid #e2e2e2; border-radius: 10px; outline: none;
+    &:focus { border-color: #7c6cff; box-shadow: 0 0 0 3px rgba(124,108,255,.2); }
+  }
+  button {
+    padding: .6rem .9rem; border: none; border-radius: 10px; background: #7c6cff; color: #fff; cursor: pointer;
+    &:disabled { opacity: .6; cursor: not-allowed; }
+  }
+}
+
+.headline {
+  text-align: left;
+  .temp { font-size: 4.2rem; line-height: 1; font-weight: 800; }
+  .city { font-size: 1.25rem; margin-top: .2rem; opacity: .9; }
+  .summary { color: #334155; margin-top: .25rem; }
+}
+
+.slab {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f0f3f7;
+  border-radius: 14px;
+
+  h3 { margin: 0 0 .75rem; font-size: 1rem; color: #334155; }
+}
+
+/* Bandeau des heures */
+.hours {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(68px, 1fr);
+  gap: .5rem;
+  overflow-x: auto;
+  padding-bottom: .25rem;
+
+  .hour {
+    background: #fff;
+    border-radius: 12px;
+    padding: .5rem .4rem;
+    text-align: center;
+    .t { font-size: .85rem; color: #64748b; }
+    .i { font-size: 1.25rem; margin: .25rem 0; }
+    .v { font-weight: 700; }
+  }
+}
+
+/* Grille "Détails du jour" */
+.grid6 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+
+  .cell {
+    background: #fff;
+    border-radius: 12px;
+    padding: .8rem;
+    .label { color: #64748b; font-size: .85rem; }
+    .value { font-size: 1.25rem; font-weight: 700; margin-top: .25rem; }
+  }
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+/* Carte lever/coucher du soleil (dégradé piloté par l'heure) */
+.sun-card {
+  border-radius: 14px;
+  color: #1f2937;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.2);
+  padding: 0.8rem;
+
+  .sun-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    gap: .5rem;
+    margin-bottom: .5rem;
+
+    .sunline {
+      position: relative;
+      height: 8px;
+      background: rgba(255,255,255,.6);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    /* Curseur (positionné via left:% depuis le template) */
+    .sun-cursor {
+      position: absolute;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #ffdd55;
+      box-shadow: 0 0 8px rgba(255, 221, 85, 0.8);
+      transition: left 600ms ease-in-out;
+    }
+
+    .sun {
+      font-size: 1.2rem;
+      animation: float 2.2s ease-in-out infinite;
+    }
+    .sun-rise { filter: drop-shadow(0 2px 2px rgba(0,0,0,.15)); }
+    .sun-set  { filter: drop-shadow(0 2px 2px rgba(0,0,0,.25)); }
+  }
+
+  .sun-times {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+  }
+}
+
+/* Petite oscillation des icônes */
+@keyframes float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-4px); }
+  100% { transform: translateY(0px); }
+}
+
+/* 7 jours */
+.days {
+  display: grid;
+  gap: .5rem;
+  grid-template-columns: repeat(2, 1fr);
+
+  @media (min-width: 720px) {
+    grid-template-columns: repeat(7, 1fr);
+  }
+
+  .day {
+    background: #fff;
+    border-radius: 12px;
+    padding: .8rem;
+    text-align: center;
+    .label { color: #64748b; font-size: .9rem; margin-bottom: .25rem; text-transform: capitalize; }
+    .icon { font-size: 1.4rem; margin: .25rem 0; }
+    .temps { font-weight: 700; }
+  }
+}
+
+.muted { color: #777; }
+.error { color: #bb2d3b; }
